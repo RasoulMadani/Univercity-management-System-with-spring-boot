@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Date;
+
 @MappedSuperclass
 @Getter
 @Setter
@@ -28,7 +30,7 @@ public class User extends BaseEntity {
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(nullable = false)
-    private Data birthDay;
+    private Date birthDay;
 
 
     @Column(unique = true, nullable = false, updatable = false)
