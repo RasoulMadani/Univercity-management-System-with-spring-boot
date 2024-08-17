@@ -2,6 +2,7 @@ package com.example.demo.service;
 
 import com.example.demo.entity.Course;
 import com.example.demo.exception.ConflictException;
+import com.example.demo.exception.NotFoundException;
 import com.example.demo.repository.CourseRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,13 @@ public class CourseService {
         if(course1.isPresent())
             throw new ConflictException("The course with the desired code is available in the system .");
         return course1.get();
+    }
+
+    public Course findById(Long id){
+        Optional<Course> optional = courseRepository.findById(id);
+        if(optional.isEmpty())
+            throw new NotFoundException("Course Not found.");
+        return optional.get();
     }
 }
 
