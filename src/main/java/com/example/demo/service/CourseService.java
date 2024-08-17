@@ -7,6 +7,7 @@ import com.example.demo.repository.CourseRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -26,5 +27,19 @@ public class CourseService {
             throw new NotFoundException("Course Not found.");
         return optional.get();
     }
+
+    public Course update(Course course){
+        findById(course.getId());
+        return courseRepository.save(course);
+    }
+
+    public void deleteById(Long id){
+        findById(id);
+        courseRepository.deleteById(id);
+    }
+    public List<Course> findAll(){
+        return courseRepository.findAll();
+    }
+
 }
 
