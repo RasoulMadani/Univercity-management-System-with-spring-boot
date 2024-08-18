@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import com.example.demo.entity.Course;
 import com.example.demo.entity.Professor;
 import com.example.demo.exception.ConflictException;
 import com.example.demo.exception.NotFoundException;
@@ -54,6 +55,10 @@ public class ProfessorService {
         if (optional.isEmpty())
             throw new NotFoundException("Professor Not found.");
         return optional.get();
+    }
+    public List<Course> listCoursesProfessor(int code) {
+        Professor professor = findByCode(code);
+        return professor.getCourses().stream().toList();
     }
 
     public List<Professor> findAll() {
