@@ -43,7 +43,12 @@ public class ProfessorService {
         findById(id);
         professorRepository.deleteById(id);
     }
-
+    public Professor findByCode(int code) {
+        Optional<Professor> optional = professorRepository.findByCode(code);
+        if (optional.isEmpty())
+            throw new NotFoundException("Professor Not found.");
+        return optional.get();
+    }
     public Professor findById(Long id) {
         Optional<Professor> optional = professorRepository.findById(id);
         if (optional.isEmpty())
