@@ -28,9 +28,10 @@ public class CourseService {
         return optional.get();
     }
 
-    public Course update(Course course){
-        findById(course.getId());
-        return courseRepository.save(course);
+    public Course update(Course courseUpdate){
+        Course byId = findById(courseUpdate.getId());
+        courseUpdate.setCode(byId.getCode());
+        return courseRepository.save(courseUpdate);
     }
 
     public void deleteById(Long id){
