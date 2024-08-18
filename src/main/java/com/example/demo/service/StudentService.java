@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import com.example.demo.entity.Course;
 import com.example.demo.entity.Professor;
 import com.example.demo.entity.Student;
 import com.example.demo.exception.ConflictException;
@@ -57,6 +58,10 @@ public class StudentService {
         if(optional.isEmpty())
             throw new NotFoundException("Student Not found.");
         return optional.get();
+    }
+    public List<Course> listCoursesStudent(long stdNumber) {
+        Student student = findByStdNumber(stdNumber);
+        return student.getCourses().stream().toList();
     }
     public List<Student> findAll(){
         return studentRepository.findAll();

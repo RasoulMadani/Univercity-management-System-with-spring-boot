@@ -1,7 +1,14 @@
 package com.example.demo.controller;
 
+import com.example.demo.dto.course.ViewCourseDTO;
+import com.example.demo.dto.student.AddStudentDTO;
+import com.example.demo.dto.student.UpdateStudentDTO;
+import com.example.demo.dto.student.ViewStudentDTO;
+import com.example.demo.entity.Course;
 import com.example.demo.entity.Professor;
 import com.example.demo.entity.Student;
+import com.example.demo.mapper.CourseMapper;
+import com.example.demo.mapper.StudentMapper;
 import com.example.demo.service.StudentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -14,33 +21,43 @@ import java.util.List;
 @RequiredArgsConstructor
 public class StudentController {
     private final StudentService studentService;
+    private final StudentMapper studentMapper;
+    private final CourseMapper courseMapper;
 
     @PostMapping("/save")
     @ResponseStatus(HttpStatus.CREATED)
-    public Student save(@RequestBody Student professor){
-        return studentService.save(professor);
+    public ViewStudentDTO save(@RequestBody AddStudentDTO addStudentDTO) {
+        Student student = studentService.save(studentMapper.toEntity(addStudentDTO));
+        return studentMapper.toViewDto(student);
     }
 
     @PutMapping("/update")
     @ResponseStatus(HttpStatus.OK)
-    public Student update(@RequestBody Student professor){
-        return studentService.update(professor);
+    public ViewStudentDTO update(@RequestBody UpdateStudentDTO updateStudentDTO) {
+        Student student = studentService.update(studentMapper.toEntity(updateStudentDTO));
+        return studentMapper.toViewDto(student);
     }
 
     @DeleteMapping("/delete/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable Long id){
+    public void delete(@PathVariable Long id) {
         studentService.deleteById(id);
     }
 
     @GetMapping("/find/{id}")
-    public Student findById(@PathVariable Long id){
-        return studentService.findById(id);
+    public ViewStudentDTO findById(@PathVariable Long id) {
+        return studentMapper.toViewDto(studentService.findById(id));
     }
 
     @GetMapping("/list")
-    public List<Student> findAll(){
-        return studentService.findAll();
+    public List<ViewStudentDTO> findAll() {
+        return studentMapper.toListViewDTO(studentService.findAll());
+    }
+
+    @GetMapping("/{stdNumber}/course/list")
+    public List<ViewCourseDTO> listCoursesStudent(@PathVariable long stdNumber) {
+        List<Course> courses = studentService.listCoursesStudent(stdNumber);
+        return courseMapper.toListViewDTO(courses);
     }
 
 
