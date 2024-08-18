@@ -47,6 +47,10 @@ public class StudentService {
             throw new NotFoundException("Student Not Found.");
         return optional.get();
     }
+    public void deleteById(Long id) {
+        findById(id);
+        studentRepository.deleteById(id);
+    }
 
     public Student findByStdNumber(Long stdNumber){
         Optional<Student> optional = studentRepository.findByStdNumber(stdNumber);
